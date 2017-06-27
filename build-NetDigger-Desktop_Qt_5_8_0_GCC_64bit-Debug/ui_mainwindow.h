@@ -17,13 +17,14 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QListWidget>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -39,19 +40,21 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *StartSniff;
     QPushButton *StopSniff;
+    QLabel *indDevice;
+    QPushButton *FindDevice;
     QSpacerItem *horizontalSpacer;
     QCheckBox *SafeInFile;
     QHBoxLayout *horizontalLayout_3;
     QHBoxLayout *horizontalLayout_2;
     QCustomPlot *qplot;
     QGroupBox *groupBox;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QRadioButton *buttonAll;
     QRadioButton *buttonTCP;
     QRadioButton *buttonUDP;
     QRadioButton *buttonIGMP;
-    QListWidget *listWidget;
+    QTextEdit *logtrace;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -79,6 +82,18 @@ public:
         StopSniff->setObjectName(QStringLiteral("StopSniff"));
 
         horizontalLayout->addWidget(StopSniff);
+
+        indDevice = new QLabel(centralWidget);
+        indDevice->setObjectName(QStringLiteral("indDevice"));
+        indDevice->setMinimumSize(QSize(22, 22));
+        indDevice->setStyleSheet(QStringLiteral("background-color: rgb(255, 0, 0);"));
+
+        horizontalLayout->addWidget(indDevice);
+
+        FindDevice = new QPushButton(centralWidget);
+        FindDevice->setObjectName(QStringLiteral("FindDevice"));
+
+        horizontalLayout->addWidget(FindDevice);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -110,31 +125,31 @@ public:
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setMaximumSize(QSize(100, 16777215));
-        widget = new QWidget(groupBox);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 30, 58, 100));
-        verticalLayout = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(groupBox);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 30, 58, 100));
+        verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        buttonAll = new QRadioButton(widget);
+        buttonAll = new QRadioButton(layoutWidget);
         buttonAll->setObjectName(QStringLiteral("buttonAll"));
         buttonAll->setChecked(true);
 
         verticalLayout->addWidget(buttonAll);
 
-        buttonTCP = new QRadioButton(widget);
+        buttonTCP = new QRadioButton(layoutWidget);
         buttonTCP->setObjectName(QStringLiteral("buttonTCP"));
 
         verticalLayout->addWidget(buttonTCP);
 
-        buttonUDP = new QRadioButton(widget);
+        buttonUDP = new QRadioButton(layoutWidget);
         buttonUDP->setObjectName(QStringLiteral("buttonUDP"));
 
         verticalLayout->addWidget(buttonUDP);
 
-        buttonIGMP = new QRadioButton(widget);
+        buttonIGMP = new QRadioButton(layoutWidget);
         buttonIGMP->setObjectName(QStringLiteral("buttonIGMP"));
 
         verticalLayout->addWidget(buttonIGMP);
@@ -145,11 +160,13 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_3);
 
-        listWidget = new QListWidget(centralWidget);
-        listWidget->setObjectName(QStringLiteral("listWidget"));
-        listWidget->setMaximumSize(QSize(16777215, 161));
+        logtrace = new QTextEdit(centralWidget);
+        logtrace->setObjectName(QStringLiteral("logtrace"));
+        logtrace->setMinimumSize(QSize(0, 0));
+        logtrace->setMaximumSize(QSize(16777215, 160));
+        logtrace->setReadOnly(true);
 
-        verticalLayout_2->addWidget(listWidget);
+        verticalLayout_2->addWidget(logtrace);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -174,12 +191,14 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "NetDigger", Q_NULLPTR));
         StartSniff->setText(QApplication::translate("MainWindow", "StartSniff", Q_NULLPTR));
         StopSniff->setText(QApplication::translate("MainWindow", "StopSniff", Q_NULLPTR));
+        indDevice->setText(QString());
+        FindDevice->setText(QApplication::translate("MainWindow", "Find device", Q_NULLPTR));
         SafeInFile->setText(QApplication::translate("MainWindow", "SafeInFile", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("MainWindow", "Sniffing protocol", Q_NULLPTR));
         buttonAll->setText(QApplication::translate("MainWindow", "All", Q_NULLPTR));
         buttonTCP->setText(QApplication::translate("MainWindow", "TCP", Q_NULLPTR));
         buttonUDP->setText(QApplication::translate("MainWindow", "UDP", Q_NULLPTR));
-        buttonIGMP->setText(QApplication::translate("MainWindow", "IGMP", Q_NULLPTR));
+        buttonIGMP->setText(QApplication::translate("MainWindow", "ICMP", Q_NULLPTR));
     } // retranslateUi
 
 };

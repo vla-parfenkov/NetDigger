@@ -32,6 +32,29 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="indDevice">
+        <property name="minimumSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 0, 0);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="FindDevice">
+        <property name="text">
+         <string>Find device</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -80,7 +103,7 @@
         <property name="title">
          <string>Sniffing protocol</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -117,7 +140,7 @@
           <item>
            <widget class="QRadioButton" name="buttonIGMP">
             <property name="text">
-             <string>IGMP</string>
+             <string>ICMP</string>
             </property>
            </widget>
           </item>
@@ -128,12 +151,21 @@
      </layout>
     </item>
     <item>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QTextEdit" name="logtrace">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>161</height>
+        <height>160</height>
        </size>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

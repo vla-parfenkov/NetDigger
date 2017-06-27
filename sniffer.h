@@ -20,10 +20,10 @@ public:
     pcap_t * get_pcap_handle ();
     const pcap_t * get_pcap_handle () const;
     bool set_filter (const QString &filter);
-    void set_device (const QString &device);
+    bool set_device (const QString &device);
     void sniff_loop (pcap_handler function, size_t max_packets);
     void stop_loop ();
-    void found_device();
+    bool found_device();
     const u_char* get_packet(pcap_pkthdr* header);
 
 protected:
@@ -47,6 +47,9 @@ private:
 
 };
 
+
+
+
 //---------------------------------------------------------//
 //Start sniffing thread
 class CQTSniffer : public QThread
@@ -60,16 +63,22 @@ public:
 private:
     CBaseSniffer *Sniff;
     bool safeinfile = false;
+    bool safeingraph = true;
+    bool safeinlog = true;
 
 public slots:
     void start_sniff();
     void stop_sniff();
     void set_filter(QString filter);
     void safe_in_file(bool safe);
+    void find_device();
+    void set_ready_graph(bool flag);
+    void set_ready_log(bool flag);
 signals:
     void stop_loop();
     void packet_ready(QString packet_data);
     void set_graph_data(quint8 protocol, quint32 size, quint64 time);
+    void device_ready(bool flag);
 
     // QThread interface
 protected:

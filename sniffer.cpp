@@ -80,13 +80,19 @@ void CBaseSniffer::stop_loop()
     pcap_breakloop(handle);
 }
 
-void CBaseSniffer::found_device()
+bool CBaseSniffer::found_device()
 {
 
     char errbuf[PCAP_ERRBUF_SIZE];
     QString device(pcap_lookupdev(errbuf));
+    if(device == NULL)
+    {
+        return false;
+    } else
+    {
+       return set_device(device);
+    }
 
-    set_device(device);
 }
 
 const u_char *CBaseSniffer::get_packet(pcap_pkthdr *header)
@@ -94,7 +100,7 @@ const u_char *CBaseSniffer::get_packet(pcap_pkthdr *header)
     return pcap_next(handle,header);
 }
 
-void CBaseSniffer::set_device(const QString &device)
+bool CBaseSniffer::set_device(const QString &device)
 {
     const char* dev = qPrintable(device);
     pcap_t *newhandler = NULL;
@@ -107,9 +113,14 @@ void CBaseSniffer::set_device(const QString &device)
     //открыть устройство
 
     newhandler = pcap_open_live( dev, BUFSIZ, true, 0, error_buffer);
+    if (newhandler == NULL){
+        return false;
+    }
     _BaseSniff->set_pcap_handle(newhandler);
     _BaseSniff->set_net(tempnet);
     _BaseSniff->set_mask(tempmask);
+    return true;
+
 }
 
 
@@ -122,7 +133,7 @@ void CBaseSniffer::set_device(const QString &device)
 CQTSniffer::CQTSniffer()
 {
     Sniff = CBaseSniffer::init_sniffer();
-    Sniff->found_device();
+
 }
 
 CQTSniffer::~CQTSniffer()
@@ -184,10 +195,26 @@ void CQTSniffer::safe_in_file(bool safe)
     safeinfile = safe;
 }
 
+void CQTSniffer::find_device()
+{
+    emit device_ready(Sniff->found_device());
+}
+
+void CQTSniffer::set_ready_graph(bool flag)
+{
+    safeingraph = flag;
+}
+
+void CQTSniffer::set_ready_log(bool flag)
+{
+    safeinlog = flag;
+}
+
 void CQTSniffer::run()
 {
-    QString packet_data;
+
     forever{ 
+        QString packet_data;
         pcap_pkthdr packet_header;
         const u_char* packet_body = Sniff->get_packet(&packet_header);
         CPacket *Packet = new CEthernetFrame(packet_body, packet_header.len);
@@ -203,11 +230,16 @@ void CQTSniffer::run()
         {
             safe_packets(Packet);
         }
-        quint64 time_ms = (packet_header.ts.tv_sec * (quint64)1000) + (packet_header.ts.tv_usec / 1000);
+        if( safeingraph == true){
+            quint64 time_ms = (packet_header.ts.tv_sec * (quint64)1000) + (packet_header.ts.tv_usec / 1000);
+            emit set_graph_data(Packet->get_protocol(), Packet->size(), time_ms);
+        }
+        if  (safeinlog == true)
+        {
+            //вызов сигнала записи в list
+            emit packet_ready(packet_data);
+        }
 
-        emit set_graph_data(Packet->get_protocol(),Packet->size(),time_ms );
-        //вызов сигнала записи в list
-        emit packet_ready(packet_data);
         delete Packet;
         delete Visitor;
         if(isInterruptionRequested()){

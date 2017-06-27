@@ -215,7 +215,6 @@ DIST          = ../Qt/5.8/gcc_64/mkspecs/features/spec_pre.prf \
 		../Qt/5.8/gcc_64/mkspecs/features/qt_config.prf \
 		../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../Qt/5.8/gcc_64/mkspecs/features/spec_post.prf \
-		../NetDigger/.qmake.stash \
 		../Qt/5.8/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../Qt/5.8/gcc_64/mkspecs/features/toolchain.prf \
 		../Qt/5.8/gcc_64/mkspecs/features/default_pre.prf \
@@ -404,7 +403,6 @@ Makefile: ../NetDigger/NetDigger.pro ../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.co
 		../Qt/5.8/gcc_64/mkspecs/features/qt_config.prf \
 		../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../Qt/5.8/gcc_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		../Qt/5.8/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../Qt/5.8/gcc_64/mkspecs/features/toolchain.prf \
 		../Qt/5.8/gcc_64/mkspecs/features/default_pre.prf \
@@ -580,7 +578,6 @@ Makefile: ../NetDigger/NetDigger.pro ../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.co
 ../Qt/5.8/gcc_64/mkspecs/features/qt_config.prf:
 ../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../Qt/5.8/gcc_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 ../Qt/5.8/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../Qt/5.8/gcc_64/mkspecs/features/toolchain.prf:
 ../Qt/5.8/gcc_64/mkspecs/features/default_pre.prf:
@@ -3484,7 +3481,9 @@ sniffer.o: ../NetDigger/sniffer.cpp ../NetDigger/sniffer.h \
 		../Qt/5.8/gcc_64/include/QtGui/qinputmethod.h \
 		../Qt/5.8/gcc_64/include/QtCore/QFile \
 		../Qt/5.8/gcc_64/include/QtCore/QTextStream \
-		../Qt/5.8/gcc_64/include/QtCore/QDebug
+		../Qt/5.8/gcc_64/include/QtCore/QDebug \
+		../Qt/5.8/gcc_64/include/QtCore/QDateTime \
+		../Qt/5.8/gcc_64/include/QtCore/qdatetime.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sniffer.o ../NetDigger/sniffer.cpp
 
 netpacket.o: ../NetDigger/netpacket.cpp ../NetDigger/netpacket.h \
